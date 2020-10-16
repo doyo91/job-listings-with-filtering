@@ -1,3 +1,120 @@
 .card {
   background: $white;
+  display: flex;
+  flex-direction: column;
+  padding: 3rem 2rem 2rem;
+  position: relative;
+  border-radius: 0.5rem;
+  margin-bottom: 5rem;
+  box-shadow: 0px 10px 15px -7px rgba($clr-primary, 0.5);
+
+  &.border {
+    border-left: $clr-primary solid 0.5rem;
+  }
+
+  &__column {
+    display: flex;
+  }
+
+  &__logo {
+    width: 5rem;
+    height: 5rem;
+    position: absolute;
+    top: -2.5rem;
+    left: 2.5rem;
+  }
+
+  &__info {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  &__company {
+    color: $clr-primary;
+    font-weight: 700;
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+  }
+
+  &__position {
+    color: $clr-dark-grayish-cyan;
+    font-weight: 700;
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    cursor: pointer;
+    transition: color 0.2s ease;
+
+    &:hover {
+      color: $clr-primary;
+    }
+  }
+  &__details {
+    display: flex;
+  }
+  &__details-item {
+    color: rgba($clr-grayish-cyan, 0.9);
+    margin-right: 2rem;
+    font-size: 1.2rem;
+
+    &:first-child {
+      list-style-type: none;
+    }
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+
+  &__separator {
+    background-color: rgba($clr-grayish-cyan, 0.6);
+    height: 0.14rem;
+    width: 100%;
+    border: none;
+    margin: 2rem 0 1.5rem;
+  }
+
+  &__skills {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: -1rem;
+  }
+
+  &__skills-item {
+    background-color: $clr-filter-tablets;
+    color: $clr-primary;
+    border-radius: 0.5rem;
+    padding: 0.5rem 1rem;
+    margin-right: 1rem;
+    margin-bottom: 1.5rem;
+    font-size: 1.2rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.4s ease;
+
+    &:hover {
+      background-color: $clr-primary;
+      color: $white;
+    }
+  }
+
+  .badges {
+    color: $white;
+    padding: 0.8rem 0.8rem 0.5rem;
+    border-radius: 3rem;
+    font-size: 1rem;
+    font-weight: 700;
+
+    &:first-child {
+      margin: 0 0.5rem 0 1rem;
+    }
+
+    &--new {
+      background-color: $clr-primary;
+    }
+
+    &--featured {
+      background-color: $clr-dark-grayish-cyan;
+    }
+  }
 }
