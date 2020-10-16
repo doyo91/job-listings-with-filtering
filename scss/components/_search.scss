@@ -78,3 +78,27 @@
     }
   }
 }
+
+@media screen and (min-width: $break-desktop) {
+  .search {
+    top: -6rem;
+    min-height: 6rem;
+
+    &__content {
+      min-height: 6rem;
+    }
+
+    &__filterTablets-item {
+      height: 2.5rem;
+
+      span {
+        font-size: 1.2rem;
+      }
+    }
+
+    &__filterTablets-clear {
+      height: 2.5rem;
+      width: 2.5rem;
+    }
+  }
+}
