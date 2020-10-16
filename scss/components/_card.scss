@@ -118,3 +118,49 @@
     }
   }
 }
+
+@media screen and (min-width: $break-desktop) {
+  .card {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 3rem 2rem 3rem;
+
+    &__column--left {
+      display: flex;
+      align-items: center;
+    }
+
+    &__logo {
+      width: 8rem;
+      height: 8rem;
+      top: auto;
+      left: auto;
+      position: relative;
+    }
+
+    &__info {
+      margin-left: 2rem;
+    }
+
+    &__separator {
+      display: none;
+    }
+
+    &__skills {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      margin-bottom: 0;
+      flex: 1;
+    }
+
+    &__skills-item {
+      padding: 0.5rem 1rem;
+      margin-right: 1rem;
+      margin: 1rem 1rem;
+      font-size: 1.2rem;
+    }
+  }
+}

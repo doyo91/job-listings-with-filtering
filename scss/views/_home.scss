@@ -9,7 +9,7 @@ header {
 }
 
 main {
-  max-width: 1440px;
+  max-width: 1024px;
   margin: auto;
   margin-top: 0;
   margin-bottom: 5rem;
@@ -18,5 +18,15 @@ main {
 
   .jobs-container {
     padding: 3rem;
+  }
+}
+
+@media screen and (min-width: $break-desktop) {
+  header {
+    background: url("/images/bg-header-desktop.svg");
+    background-size: cover;
+    background-position: center;
+    background-color: $clr-primary;
+    margin-bottom: 2.5rem;
   }
 }
