@@ -1,15 +1,7 @@
-// Function para seleccionar elementos
-const selectElement = (s) => document.querySelector(s);
-const selectElementById = (id) => document.getElementById(id);
-
-// // Open Menu
-// selectElement(".nav__menu-icons--open").addEventListener("click", () => {
-//   selectElement(".nav__list").classList.add("active");
-// });
-// // Close Menu
-// selectElement(".nav__menu-icons--close").addEventListener("click", () => {
-//   selectElement(".nav__list").classList.remove("active");
-// });
+const TAG_ACTIVE_CLASS = "tag--active";
+const SEARCH_HIDDEN_CLASS = "search--hidden";
+const SEARCH_TAG_CLASS = "search-tag";
+const TAG_CLASS = "tag";
 
 const jobsListJSON = [
   {
@@ -164,20 +156,9 @@ const jobsListJSON = [
   },
 ];
 
-const tagsFilterSearch = `
-<!-- FilterTablet-item -->
-<div class="search__filterTablets-item">
-<span>Frontend</span>
-<button class="search__filterTablets-clear">
-  <img src="images/icon-remove.svg" alt="remove icon" />
-</button>
-</div>
-<!-- FilterTablet-item END -->
-`;
-
 // Sustituye en el tag ###JOB_TAGS###
-function getTagHTML(tag) {
-  return `<span class="card__skills-item"> 
+function getTagHTML(tag, tagClasses) {
+  return `<span class="${tagClasses}"> 
             ${tag}
         </span>`;
 }
@@ -201,11 +182,11 @@ function getBadgesHTML(jobData) {
   }
 }
 
-function getJobsListHTML(jobData) {
+function getJobsListHTML(jobData, filterTags = []) {
   const JOB_TAGS_PLACEHOLDER = "###JOB_TAGS";
   const JOB_BADGES_PLACEHOLDER = "###JOB_BADGES";
 
-  let layoutItemHTML = `
+  let jobItemHTML = `
     <!-- Item Start -->
     <article class="card ${jobData.featured ? "border" : ""}">
         <div class="card__column card__column--left">
@@ -238,29 +219,113 @@ function getJobsListHTML(jobData) {
     `;
 
   // Array con todos los tags del job
-  const tagsArray = [
+  const tagsList = [
     jobData.role,
     jobData.level,
     ...(jobData.languages || []),
     ...(jobData.tools || []),
   ];
 
+  const tagsListLowercase = tagsList.map((t) => t && t.toLowerCase());
+  const passesFilter =
+    !filterTags.length ||
+    filterTags.every((tag) =>
+      tagsListLowercase.includes(tag && tag.toLowerCase())
+    );
+
+  if (!passesFilter) {
+    return "";
+  }
+
   // Renderizado de todos los tags en una string
-  const tagsString = tagsArray.reduce((acc, currentTag) => {
-    return acc + getTagHTML(currentTag);
+  const tagsString = tagsList.reduce((acc, currentTag) => {
+    const activeClass =
+      (filterTags.includes(currentTag) && TAG_ACTIVE_CLASS) || "";
+    return acc + getTagHTML(currentTag, `${TAG_CLASS} ${activeClass}`);
   }, "");
 
   // Devuelve el layout de un job con tags y badges
-  return layoutItemHTML
+  return jobItemHTML
     .replace(JOB_BADGES_PLACEHOLDER, getBadgesHTML(jobData))
     .replace(JOB_TAGS_PLACEHOLDER, tagsString);
 }
 
-// Todos los jobs
-const allJobsHTML = jobsListJSON.reduce((acc, currentList) => {
-  return acc + getJobsListHTML(currentList);
-}, "");
+// Leer tag del searchBar
+function getSearchBarTags(tagValue, searchContentEl) {
+  let searchBarTags = Array.from(searchContentEl.children)
+    .map((node) => node.innerHTML && node.innerHTML.trim())
+    .filter((tag) => !!tag);
 
-selectElementById("jobs").innerHTML = allJobsHTML;
+  if (searchBarTags.includes(tagValue)) {
+    searchBarTags = searchBarTags.filter((tag) => tag !== tagValue);
+  } else {
+    searchBarTags = [...searchBarTags, tagValue];
+  }
 
-// console.log(getJobsListHTML(jobsListJSON[1]));
+  return searchBarTags;
+}
+
+// Render Jobs list
+function setJobsList(filterTags) {
+  const jobsListHTML = jobsListJSON.reduce((acc, currentListing) => {
+    return acc + getJobsListHTML(currentListing, filterTags);
+  }, "");
+
+  selectElementById("jobs").innerHTML = jobsListHTML;
+}
+
+// Ocultar o mostrar searchBar
+function displaySearchWrapper(display = false) {
+  const searchWrapper = selectElementById("search");
+
+  if (display) {
+    searchWrapper.classList.remove(SEARCH_HIDDEN_CLASS);
+
+    return;
+  }
+
+  searchWrapper.classList.add(SEARCH_HIDDEN_CLASS);
+}
+
+// Render searchBarContent
+function setSearchbarContent(searchContentEl, tags) {
+  searchContentEl.innerHTML = tags.reduce((acc, currentTag) => {
+    return acc + getTagHTML(currentTag, SEARCH_TAG_CLASS);
+  }, "");
+}
+
+// Limpiar contenido searchBar
+function resetState(searchContentEl) {
+  searchContentEl.innerHTML = "";
+
+  setJobsList();
+  displaySearchWrapper(false);
+  toggleClass((targetEl = ""), TAG_ACTIVE_CLASS);
+}
+
+// Añade los tags al search-content
+window.addEventListener("click", (event) => {
+  const targetEl = event.target;
+  const targetText = targetEl.innerHTML.trim();
+  const searchContentEl = selectElementById("search-content");
+  const searchBarTags = getSearchBarTags(targetText, searchContentEl);
+
+  if (targetEl.id === "clear-btn" || !searchBarTags.length) {
+    resetState(searchContentEl);
+
+    return;
+  }
+
+  if (
+    ![TAG_CLASS, SEARCH_TAG_CLASS].some((c) => targetEl.classList.contains(c))
+  ) {
+    return;
+  }
+
+  setSearchbarContent(searchContentEl, searchBarTags);
+  toggleClass(targetEl, TAG_ACTIVE_CLASS);
+  displaySearchWrapper(searchBarTags.length > 0);
+  setJobsList(searchBarTags);
+});
+
+setJobsList();

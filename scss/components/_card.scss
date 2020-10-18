@@ -80,24 +80,6 @@
     margin-bottom: -1rem;
   }
 
-  &__skills-item {
-    background-color: $clr-filter-tablets;
-    color: $clr-primary;
-    border-radius: 0.5rem;
-    padding: 0.5rem 1rem;
-    margin-right: 1rem;
-    margin-bottom: 1.5rem;
-    font-size: 1.2rem;
-    font-weight: 700;
-    cursor: pointer;
-    transition: all 0.4s ease;
-
-    &:hover {
-      background-color: $clr-primary;
-      color: $white;
-    }
-  }
-
   .badges {
     color: $white;
     padding: 0.8rem 0.8rem 0.5rem;
