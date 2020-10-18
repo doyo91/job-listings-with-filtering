@@ -171,36 +171,21 @@ function getTagHTML(tag) {
 
 // Sustituye en el tag ###JOB_BADGES###
 function getBadgesHTML(jobData) {
-  if (jobData.new && jobData.featured) {
-    return `<span class="badges badges--new">NEW!</span>
-            <span class="badges badges--featured">FEATURED</span>
-        `;
-  } else {
-    if (jobData.new) {
+  switch (true) {
+    case jobData.new && jobData.featured:
       return `<span class="badges badges--new">NEW!</span>
-               `;
-    } else if (jobData.featured) {
-      return `<span class="badges badges--featured">FEATURED</span>
-        `;
-    }
-
-    return "";
+          <span class="badges badges--featured">FEATURED</span>
+          `;
+    case jobData.new:
+      return `<span class="badges badges--new">NEW!</span>
+          `;
+    case jobData.featured:
+      return `
+          <span class="badges badges--featured">FEATURED</span>
+          `;
+    default:
+      return "";
   }
-  // switch (jobData) {
-  //   case jobData.new && jobData.featured:
-  //     return `<span class="badges badges--new">NEW!</span>
-  //         <span class="badges badges--featured">FEATURED</span>
-  //         `;
-  //   case jobData.new:
-  //     return `<span class="badges badges--new">NEW!</span>
-  //         `;
-  //   case jobData.featured:
-  //     return `
-  //         <span class="badges badges--featured">FEATURED</span>
-  //         `;
-  //   default:
-  //     return "";
-  // }
 }
 
 function getJobsListHTML(jobData) {
