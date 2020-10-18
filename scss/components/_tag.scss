@@ -1,0 +1,59 @@
+.tag {
+  display: inline-block;
+  width: auto;
+  height: auto;
+  background-color: $clr-filter-tablets;
+  color: $clr-primary;
+  border-radius: 0.5rem;
+  padding: 0.5rem 1rem;
+  margin-right: 1rem;
+  margin-bottom: 1.5rem;
+  font-size: 1.2rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.4s ease;
+
+  &:hover,
+  &--active {
+    background-color: $clr-primary;
+    color: $white;
+  }
+}
+
+.search-tag {
+  display: inline-block;
+  width: auto;
+  height: auto;
+  background-color: $clr-filter-tablets;
+  color: $clr-primary;
+  border-radius: 0.5rem;
+  padding: 0.5rem 1rem;
+  margin: 1rem 1rem 1rem 0;
+  font-size: 1.2rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.4s ease;
+  padding-right: 45px;
+  position: relative;
+
+  &::after {
+    content: "";
+    display: block;
+    width: 35px;
+    height: 100%;
+    background-color: $clr-primary;
+    position: absolute;
+    right: 0;
+    top: 0;
+    background-image: url("../images/icon-remove.svg");
+    background-position: center;
+    background-size: 15px;
+    background-repeat: no-repeat;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+  }
+
+  &:hover::after {
+    background-color: $clr-dark-grayish-cyan;
+  }
+}
