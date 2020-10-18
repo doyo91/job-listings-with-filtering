@@ -1,3 +1,16 @@
+// Function para seleccionar elementos
+const selectElement = (s) => document.querySelector(s);
+const selectElementById = (id) => document.getElementById(id);
+
+// // Open Menu
+// selectElement(".nav__menu-icons--open").addEventListener("click", () => {
+//   selectElement(".nav__list").classList.add("active");
+// });
+// // Close Menu
+// selectElement(".nav__menu-icons--close").addEventListener("click", () => {
+//   selectElement(".nav__list").classList.remove("active");
+// });
+
 const jobsListJSON = [
   {
     id: 1,
@@ -194,7 +207,7 @@ function getJobsListHTML(jobData) {
 
   let layoutItemHTML = `
     <!-- Item Start -->
-    <article class="card border">
+    <article class="card ${jobData.featured ? "border" : ""}">
         <div class="card__column card__column--left">
             <img
             src="${jobData.logo}"
@@ -224,6 +237,7 @@ function getJobsListHTML(jobData) {
     <!-- Item End -->
     `;
 
+  // Array con todos los tags del job
   const tagsArray = [
     jobData.role,
     jobData.level,
@@ -231,14 +245,22 @@ function getJobsListHTML(jobData) {
     ...(jobData.tools || []),
   ];
 
-  //   Renderizado de todos los tags en una string
+  // Renderizado de todos los tags en una string
   const tagsString = tagsArray.reduce((acc, currentTag) => {
     return acc + getTagHTML(currentTag);
   }, "");
 
+  // Devuelve el layout de un job con tags y badges
   return layoutItemHTML
     .replace(JOB_BADGES_PLACEHOLDER, getBadgesHTML(jobData))
     .replace(JOB_TAGS_PLACEHOLDER, tagsString);
 }
 
-console.log(getJobsListHTML(jobsListJSON[1]));
+// Todos los jobs
+const allJobsHTML = jobsListJSON.reduce((acc, currentList) => {
+  return acc + getJobsListHTML(currentList);
+}, "");
+
+selectElementById("jobs").innerHTML = allJobsHTML;
+
+// console.log(getJobsListHTML(jobsListJSON[1]));
